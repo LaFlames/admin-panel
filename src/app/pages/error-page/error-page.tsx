@@ -1,7 +1,11 @@
-import { Box, Heading, Text, Link, Flex } from "@chakra-ui/react";
+import React from "react";
+import { Box, Heading, Text, Flex } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import { ROUTE_NAMES } from "../../routes/route-names";
 
 const ErrorPage = () => {
+  const hasToken = localStorage.getItem("fake-token");
+
   return (
     <Box position="relative" h="100vh">
       <Box
@@ -35,8 +39,7 @@ const ErrorPage = () => {
           The page you are looking for might have been removed, had its name
           changed or is temporarily unavailable
         </Text>
-        <Link
-          href={ROUTE_NAMES.ADMIN}
+        <Text
           bg="#189cf0"
           mt={5}
           p="10px"
@@ -44,8 +47,13 @@ const ErrorPage = () => {
           color="#fff"
           _hover={{ textDecoration: "none" }}
         >
-          Back to homepage
-        </Link>
+          <Link
+            to={hasToken ? ROUTE_NAMES.ADMIN : ROUTE_NAMES.LOGIN}
+            color="#fff"
+          >
+            Back to homepage
+          </Link>
+        </Text>
       </Flex>
     </Box>
   );

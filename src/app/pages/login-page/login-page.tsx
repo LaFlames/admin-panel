@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { Box, Flex, Heading, Stack, Text } from "@chakra-ui/react";
+import React from "react";
+import { Box, Flex, Heading } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { ROUTE_NAMES } from "../../routes/route-names";
 import * as Yup from "yup";
 import { Form, SubmitButton, TextInput } from "../../components";
+import { ROUTE_NAMES } from "../../routes/route-names";
 
 const schema = Yup.object({
   email: Yup.string().required("Email is required").email("Email is invalid"),
@@ -17,12 +17,6 @@ export const LoginPage = () => {
     localStorage.setItem("fake-token", `${new Date()}`);
     navigate(ROUTE_NAMES.ADMIN);
   };
-
-  useEffect(() => {
-    if (localStorage.getItem("fake-token")) {
-      navigate(ROUTE_NAMES.ADMIN);
-    }
-  });
 
   return (
     <Flex
@@ -49,7 +43,7 @@ export const LoginPage = () => {
       >
         <Form onSubmit={onSubmit} validationSchema={schema}>
           <TextInput name="email" label="Email" />
-          <Box mt={2}>
+          <Box mt={5}>
             <TextInput name="password" label="Password" />
           </Box>
           <SubmitButton width="full" colorScheme="purple" mt={8}>

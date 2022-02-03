@@ -1,8 +1,8 @@
 import React from "react";
-import { Box, Spinner, Image } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 import Loader from "../../assets/loader.svg";
 
-const CustomSpinner = ({ ...restProps }) => {
+const CustomSpinner = () => {
   return (
     <Box
       style={{
@@ -13,7 +13,6 @@ const CustomSpinner = ({ ...restProps }) => {
       }}
     >
       <Image src={Loader} alt="loader" />
-      {/*<Spinner thickness="8px" color="purple.500" w={"150px"} h={"150px"} />*/}
     </Box>
   );
 };

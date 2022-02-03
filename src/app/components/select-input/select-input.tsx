@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   FormControl,
@@ -6,7 +7,6 @@ import {
   SelectProps,
 } from "@chakra-ui/react";
 import { useController, useFormContext } from "react-hook-form";
-import React from "react";
 
 interface SelectInputProps extends SelectProps {
   name: string;
@@ -39,13 +39,21 @@ const SelectInput: React.FC<SelectInputProps> = ({
         {...restProps}
         name={name}
         isInvalid={invalid}
-        errorBorderColor={"crimson"}
+        errorBorderColor="crimson"
       >
         {children}
       </Select>
-      <Box height={4} color="red" fontSize="12px" fontWeight="bold">
-        {errors[name] && errors[name].message}
-      </Box>
+      {errors[name] && (
+        <Box
+          position="absolute"
+          height={4}
+          color="red"
+          fontSize="12px"
+          fontWeight="bold"
+        >
+          {errors[name] && errors[name].message}
+        </Box>
+      )}
     </FormControl>
   );
 };

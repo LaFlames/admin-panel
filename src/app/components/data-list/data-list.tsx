@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, TableCaption, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
+import { Table, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
 
 type DataListProps = {
   listHeaders: string[];

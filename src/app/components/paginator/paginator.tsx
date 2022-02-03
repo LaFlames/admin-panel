@@ -7,33 +7,58 @@ import {
   PaginationPageGroup,
   PaginationPrevious,
   PaginationSeparator,
+  usePagination,
 } from "@ajna/pagination";
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/all";
 import { Box, Select } from "@chakra-ui/react";
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/all";
+import { useSearchParams } from "react-router-dom";
 
 type PaginationPropsType = {
-  pagesCount: number;
-  currentPage: number;
-  setCurrentPage: (page: number) => void;
-  setPageSize: (event: ChangeEvent<HTMLSelectElement>) => void;
-  pages: number[];
-  pageSize: number;
+  total: number;
 };
 
-const Paginator = ({
-  pages,
-  pagesCount,
-  pageSize,
-  currentPage,
-  setCurrentPage,
-  setPageSize,
-}: PaginationPropsType) => {
+const Paginator: React.FC<PaginationPropsType> = ({ total }) => {
+  const [searchParams, setSearchParams] = useSearchParams({
+    page: "1",
+    size: "10",
+  });
+
+  const currentPageFromQuery = parseInt(searchParams.get("page") as string);
+  const pageSizeFromQuery = parseInt(searchParams.get("size") as string);
+
+  const { setPageSize, setCurrentPage, pagesCount, pages } = usePagination({
+    total,
+    initialState: {
+      currentPage: currentPageFromQuery,
+      pageSize: pageSizeFromQuery,
+    },
+    limits: {
+      outer: 1,
+      inner: 1,
+    },
+  });
+
+  const handlePageSizeChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const pageSize = Number(event.target.value);
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      size: `${pageSize.toString()}`,
+    });
+    setPageSize(pageSize);
+  };
+  const handleCurrentPageChange = (page: number) => {
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      page: `${page.toString()}`,
+    });
+    setCurrentPage(page);
+  };
   return (
     <Box>
       <Pagination
         pagesCount={pagesCount}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
+        currentPage={currentPageFromQuery}
+        onPageChange={handleCurrentPageChange}
       >
         <PaginationContainer>
           <PaginationPrevious
@@ -82,13 +107,13 @@ const Paginator = ({
         </PaginationContainer>
       </Pagination>
       <Select
-        onChange={setPageSize}
+        onChange={handlePageSizeChange}
         bg="#805ad5"
         borderColor="#805ad5"
         _hover={{ cursor: "pointer" }}
         w={40}
         mt={3}
-        defaultValue={pageSize.toString()}
+        defaultValue={pageSizeFromQuery.toString()}
       >
         <option value="10">10</option>
         <option value="25">25</option>

@@ -1,0 +1,15 @@
+mutation createAlbum($input: CreateAlbumInput!) {
+    createAlbum(input: $input) {
+        title
+        id
+    }
+}
+
+query getUserInfo {
+    users {
+        data {
+            name
+            id
+        }
+    }
+}

@@ -1,28 +1,25 @@
-import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { FormProvider, useForm } from "react-hook-form";
 import { AnyObjectSchema } from "yup";
 
 type FormPropsType = {
   onSubmit: (data: any) => void;
   validationSchema: AnyObjectSchema;
-};
-
-export type LoginFormType = {
-  email: string;
-  password: string;
-  children: React.ReactNode;
+  defaultValues?: { [x: string]: any } | undefined;
 };
 
 const Form: React.FC<FormPropsType> = ({
   onSubmit,
   validationSchema,
   children,
+  defaultValues,
   ...restProps
 }) => {
-  const methods = useForm<LoginFormType>({
+  const methods = useForm({
     resolver: yupResolver(validationSchema),
     mode: "onChange",
+    defaultValues,
   });
 
   const submit = (data: any) => {

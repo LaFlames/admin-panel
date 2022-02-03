@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   FormControl,
@@ -6,7 +7,6 @@ import {
   InputProps,
 } from "@chakra-ui/react";
 import { useController, useFormContext } from "react-hook-form";
-import React from "react";
 
 interface TextInputProps extends InputProps {
   name: string;
@@ -36,11 +36,19 @@ const TextInput: React.FC<TextInputProps> = ({
         {...field}
         {...restProps}
         isInvalid={invalid}
-        errorBorderColor={"crimson"}
+        errorBorderColor="crimson"
       />
-      <Box height={4} color="red" fontSize="12px" fontWeight="bold">
-        {errors[name] && errors[name].message}
-      </Box>
+      {errors[name] && (
+        <Box
+          position="absolute"
+          height={4}
+          color="red"
+          fontSize="12px"
+          fontWeight="bold"
+        >
+          {errors[name] && errors[name].message}
+        </Box>
+      )}
     </FormControl>
   );
 };

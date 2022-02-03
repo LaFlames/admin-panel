@@ -1,0 +1,20 @@
+query getAlbums($options: PageQueryOptions) {
+    albums(options: $options) {
+        data {
+            id
+            title
+            user {
+                name
+            }
+            photos {
+                data {
+                    id
+                }
+            }
+        }
+    }
+}
+
+mutation deleteAlbum($id: ID!) {
+    deleteAlbum(id: $id)
+}
