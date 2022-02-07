@@ -9,6 +9,7 @@ import {
   EditAlbumPage,
 } from "../pages/admin-layout/components/albums";
 import { ROUTE_NAMES } from "./route-names";
+import { Homepage } from "../pages/admin-layout/components";
 
 const AdminRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AdminRoutes = () => {
       <Route path={ROUTE_NAMES.ADMIN} element={<AdminLayout />}>
         {/*<Route path={`${ROUTE_NAMES.ALBUMS}/*`} element={<AlbumsRoutes />} />*/}
 
+        <Route index element={<Homepage />} />
         <Route path={ROUTE_NAMES.ALBUMS} element={<AlbumsListPage />} />
         <Route path={`${ROUTE_NAMES.ALBUMS}/:id`} element={<AlbumPage />} />
         <Route path={ROUTE_NAMES.CREATE_ALBUM} element={<CreateAlbumPage />} />

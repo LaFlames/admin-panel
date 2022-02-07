@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Flex } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { SubmitButton } from "../../../../components";
 import { ROUTE_NAMES } from "../../../../routes/route-names";
 import { NavItem } from "./components";
+import AuthProvider from "../../../../duck";
 
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
+  const { setAuth } = useContext(AuthProvider);
 
   const logOutHandler = () => {
     localStorage.removeItem("fake-token");
+    setAuth({ isLogged: true });
     navigate(ROUTE_NAMES.LOGIN);
   };
 

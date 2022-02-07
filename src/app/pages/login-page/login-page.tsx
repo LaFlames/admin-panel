@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Box, Flex, Heading } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Form, SubmitButton, TextInput } from "../../components";
 import { ROUTE_NAMES } from "../../routes/route-names";
+import AuthProvider from "../../duck";
 
 const schema = Yup.object({
   email: Yup.string().required("Email is required").email("Email is invalid"),
@@ -12,9 +13,11 @@ const schema = Yup.object({
 
 export const LoginPage = () => {
   const navigate = useNavigate();
+  const { setAuth } = useContext(AuthProvider);
 
   const onSubmit = () => {
     localStorage.setItem("fake-token", `${new Date()}`);
+    setAuth({ isLogged: true });
     navigate(ROUTE_NAMES.ADMIN);
   };
 

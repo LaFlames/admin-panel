@@ -8,3 +8,5 @@ export { default as Paginator } from "./paginator";
 export { default as GoBackButton } from "./go-back-button";
 export { default as SelectInput } from "./select-input";
 export { default as DataList } from "./data-list";
+export { default as DateInput } from "./date-input";
+export { default as DateRangeInput } from "./date-range-input";
