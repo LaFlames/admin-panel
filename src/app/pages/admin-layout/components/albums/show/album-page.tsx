@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
+import dots from "../../../../../assets/text-dots.svg";
 import {
   Box,
   Flex,
   Heading,
+  Image,
   Tab,
   TabList,
   TabPanel,
@@ -26,6 +28,7 @@ const photosHeaders = ["ID", "Title", "Preview", ""];
 const AlbumPage = () => {
   const { id } = useParams() as { id: string };
   const [searchParams] = useSearchParams();
+  const [tabIndex, setTabIndex] = useState(0);
 
   const currentPageFromQuery = parseInt(searchParams.get("page") as string);
   const pageSizeFromQuery = parseInt(searchParams.get("size") as string);
@@ -45,54 +48,66 @@ const AlbumPage = () => {
     },
   });
 
-  if (!data || loading) {
-    return <CustomSpinner />;
-  }
-
-  if (data?.album) {
-    const { id, title, user, photos } = data.album;
-    return (
-      <Box>
-        <Flex justifyContent="space-between">
-          <Heading as="h3" size="lg" w="70%">
-            Album: {title}
-          </Heading>
-          <GoBackButton />
-        </Flex>
-        <Tabs variant="soft-rounded" colorScheme="purple">
-          <TabList mt={5}>
-            <Tab>Basic</Tab>
-            <Tab>Photos</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel p="0" mt={5}>
-              <Text>ID: {id}</Text>
-              <Text>
-                User: {user?.name} ({user?.username})
-              </Text>
-            </TabPanel>
-            <TabPanel p="0" mt={5}>
-              <DataList listHeaders={photosHeaders}>
-                {photos?.data?.map((photo, index) => (
-                  <PhotosListItem
-                    key={photo?.id || index}
-                    id={photo?.id || ""}
-                    title={photo?.title || ""}
-                    previewUrl={photo?.thumbnailUrl || ""}
-                  />
-                ))}
-              </DataList>
-              <Box mt={3}>
-                <Paginator total={50} />
-              </Box>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </Box>
-    );
-  }
-
-  return <code>data.users = null</code>;
+  return (
+    <Box minH="90vh">
+      <Flex justifyContent="space-between">
+        <Heading as="h3" size="lg" w="70%">
+          Album:{" "}
+          {data?.album ? (
+            data.album.title
+          ) : (
+            <Image src={dots} display="inline" />
+          )}
+        </Heading>
+        <GoBackButton />
+      </Flex>
+      <Tabs
+        variant="soft-rounded"
+        colorScheme="purple"
+        onChange={(index) => setTabIndex(index)}
+        defaultIndex={tabIndex}
+      >
+        <TabList mt={5}>
+          <Tab>Basic</Tab>
+          <Tab>Photos</Tab>
+        </TabList>
+        <TabPanels mt={5}>
+          <TabPanel p="0">
+            <Text>ID: {id}</Text>
+            <Text>
+              User:{" "}
+              {data?.album ? (
+                `${data.album.user?.name} (${data.album.user?.username})`
+              ) : (
+                <Image h="8px" src={dots} display="inline" />
+              )}
+            </Text>
+          </TabPanel>
+          <TabPanel p="0">
+            <Flex minH="60vh" direction="column" justifyContent="space-between">
+              {data?.album ? (
+                <DataList listHeaders={photosHeaders}>
+                  {data.album.photos?.data?.map((photo, index) => (
+                    <PhotosListItem
+                      key={photo?.id || index}
+                      id={photo?.id || ""}
+                      title={photo?.title || ""}
+                      previewUrl={photo?.thumbnailUrl || ""}
+                    />
+                  ))}
+                </DataList>
+              ) : (
+                <CustomSpinner />
+              )}
+            </Flex>
+            <Box mt={9}>
+              <Paginator total={50} />
+            </Box>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </Box>
+  );
 };
 
 export default AlbumPage;

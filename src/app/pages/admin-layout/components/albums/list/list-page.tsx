@@ -51,45 +51,40 @@ const ListPage = () => {
     });
   };
 
-  if (!data || loading) {
-    return <CustomSpinner />;
-  }
-
-  if (data.albums?.data) {
-    return (
-      <>
-        <Flex justifyContent="space-between">
-          <Heading lineHeight={1}>Albums</Heading>
-          <SubmitButton
-            onClick={() => navigate(ROUTE_NAMES.CREATE_ALBUM)}
-            colorScheme="purple"
-          >
-            Create album
-          </SubmitButton>
-        </Flex>
-        <Box mt={5}>
+  return (
+    <Flex minH="90vh" direction="column" justifyContent="space-between">
+      <Flex justifyContent="space-between">
+        <Heading lineHeight={1}>Albums</Heading>
+        <SubmitButton
+          onClick={() => navigate(ROUTE_NAMES.CREATE_ALBUM)}
+          colorScheme="purple"
+        >
+          Create album
+        </SubmitButton>
+      </Flex>
+      <Box minH="60vh" mt={8}>
+        {data?.albums?.data && !loading ? (
           <DataList listHeaders={albumsHeaders}>
-            {data.albums &&
-              data.albums.data.map((album, index) => (
-                <AlbumListItem
-                  key={album?.id || index}
-                  title={album?.title || ""}
-                  id={album?.id || ""}
-                  numberOfPhotos={album?.photos?.data?.length || 0}
-                  userName={album?.user?.name || ""}
-                  handleDeleteAlbum={handleDeleteAlbum}
-                />
-              ))}
+            {data.albums.data.map((album, index) => (
+              <AlbumListItem
+                key={album?.id || index}
+                title={album?.title || ""}
+                id={album?.id || ""}
+                numberOfPhotos={album?.photos?.data?.length || 0}
+                userName={album?.user?.name || ""}
+                handleDeleteAlbum={handleDeleteAlbum}
+              />
+            ))}
           </DataList>
-        </Box>
-        <Box mt={3}>
-          <Paginator total={100} />
-        </Box>
-      </>
-    );
-  }
-
-  return <code>data.users = null</code>;
+        ) : (
+          <CustomSpinner />
+        )}
+      </Box>
+      <Box mt={9}>
+        <Paginator total={100} />
+      </Box>
+    </Flex>
+  );
 };
 
 export default ListPage;

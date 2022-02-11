@@ -23,7 +23,10 @@ const DateInput: React.FC<DateInputProps> = ({
     control,
     formState: { errors },
   } = useFormContext();
-  const { field } = useController({ name, control, defaultValue });
+  const {
+    field,
+    fieldState: { invalid },
+  } = useController({ name, control, defaultValue });
 
   return (
     <FormControl>

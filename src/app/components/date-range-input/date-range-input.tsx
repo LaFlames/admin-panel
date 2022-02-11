@@ -1,9 +1,9 @@
 import React from "react";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 import { DateInput } from "../index";
 
 type DateRangeInputProps = {
-  name: string;
+  name: string[];
   label?: string;
   minDate?: string;
   maxDate?: string;
@@ -16,13 +16,13 @@ const DateRangeInput: React.FC<DateRangeInputProps> = ({
   maxDate,
 }) => {
   return (
-    <>
+    <Box>
       <Text>{label}</Text>
-      <DateInput name="startDate" minDate={minDate} maxDate={maxDate} />
-      <Box mt={6}>
-        <DateInput name="endDate" minDate={minDate} maxDate={maxDate} />
-      </Box>
-    </>
+      <VStack spacing={5}>
+        <DateInput name={name[0]} minDate={minDate} maxDate={maxDate} />
+        <DateInput name={name[1]} minDate={minDate} maxDate={maxDate} />
+      </VStack>
+    </Box>
   );
 };
 
