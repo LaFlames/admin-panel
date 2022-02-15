@@ -36,6 +36,7 @@ const DateInput: React.FC<DateInputProps> = ({
         selected={field.value}
         maxDate={new Date(maxDate as string)}
         minDate={new Date(minDate as string)}
+        autoComplete="off"
       />
 
       {errors[name] && (

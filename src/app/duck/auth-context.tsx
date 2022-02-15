@@ -2,7 +2,7 @@ import React from "react";
 
 type AuthContextType = {
   auth: { isLogged: boolean };
-  setAuth: (isLogged: { isLogged: boolean }) => void;
+  setAuth: (auth: { isLogged: boolean }) => void;
 };
 
 const initialState: AuthContextType = {

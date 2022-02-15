@@ -12,7 +12,7 @@ const Sidebar: React.FC = () => {
 
   const logOutHandler = () => {
     localStorage.removeItem("fake-token");
-    setAuth({ isLogged: true });
+    setAuth({ isLogged: false });
     navigate(ROUTE_NAMES.LOGIN);
   };
 
